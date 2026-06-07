@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@dcloudio/uni-ui": "^1.5.7",
+    "@element-plus/icons-vue": "^2.3.1",
+    "@qiun/ucharts": "^2.5.0-20230101",
+    "axios": "^1.15.2",
+    "echarts": "^5.6.0",
+    "element-plus": "^2.13.7"
+  }
+}

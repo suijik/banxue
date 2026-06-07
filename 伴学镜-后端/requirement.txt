@@ -1,0 +1,10 @@
+flask
+flask_mail
+flask_cors
+flask_sqlalchemy
+flask_migrate
+flask_jwt_extended
+opencv_python
+easyocr
+openai
+pytesseract

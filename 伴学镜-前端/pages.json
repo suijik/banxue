@@ -1,0 +1,81 @@
+{
+	"pages": [{
+		"path": "pages/login/login",
+		"style": {
+			"navigationBarTitleText": "登录",
+			"navigationStyle": "custom"
+		}
+	}, {
+		"path": "pages/register/register",
+		"style": {
+			"navigationBarTitleText": "注册",
+			"navigationStyle": "custom"
+		}
+	}, {
+		"path": "pages/reset/reset",
+		"style": {
+			"navigationBarTitleText": "重置密码",
+			"navigationStyle": "custom"
+		}
+	}, {
+		"path": "pages/home/home",
+		"style": {
+			"navigationBarTitleText": "首页",
+			"navigationStyle": "custom"
+		}
+	}, {
+		"path": "pages/exam-analysis/exam-analysis",
+		"style": {
+			"navigationBarTitleText": "试卷分析",
+			"navigationStyle": "custom"
+		}
+	}, {
+		"path": "pages/exam-history/exam-history",
+		"style": {
+			"navigationBarTitleText": "批改历史",
+			"navigationStyle": "custom"
+		}
+	}, {
+		"path": "pages/mistake-book/mistake-book",
+		"style": {
+			"navigationBarTitleText": "错题本",
+			"navigationStyle": "custom"
+		}
+	}, {
+		"path": "pages/practice/practice",
+		"style": {
+			"navigationBarTitleText": "举一反三",
+			"navigationStyle": "custom"
+		}
+	},{
+		"path": "pages/parent-dashboard/parent-dashboard",
+		"style": {
+			"navigationBarTitleText": "家长智囊台",
+			"navigationStyle": "custom"
+		}
+	},{
+		"path": "pages/qa/qa",
+		"style": {
+			"navigationBarTitleText": "启发答疑",
+			"navigationStyle": "custom"
+		}
+	}, {
+		"path": "pages/profile/profile",
+		"style": {
+			"navigationBarTitleText": "个人中心",
+			"navigationStyle": "custom"
+		}
+	}],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "家庭辅助智能教育平台",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#3cc51f",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff"
+	}
+}
