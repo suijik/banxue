@@ -2,14 +2,14 @@ import {
   __export
 } from "./chunk-ZS7NZCD4.js";
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/helpers/bind.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/helpers/bind.js
 function bind(fn, thisArg) {
   return function wrap() {
     return fn.apply(thisArg, arguments);
   };
 }
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/utils.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/utils.js
 var { toString } = Object.prototype;
 var { getPrototypeOf } = Object;
 var { iterator, toStringTag } = Symbol;
@@ -455,7 +455,7 @@ var utils_default = {
   isIterable
 };
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/core/AxiosError.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/core/AxiosError.js
 var AxiosError = class _AxiosError extends Error {
   static from(error, code, config, request, response, customProps) {
     const axiosError = new _AxiosError(error.message, code || error.code, config, request, response);
@@ -531,10 +531,10 @@ AxiosError.ERR_INVALID_URL = "ERR_INVALID_URL";
 AxiosError.ERR_FORM_DATA_DEPTH_EXCEEDED = "ERR_FORM_DATA_DEPTH_EXCEEDED";
 var AxiosError_default = AxiosError;
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/helpers/null.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/helpers/null.js
 var null_default = null;
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/helpers/toFormData.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/helpers/toFormData.js
 function isVisitable(thing) {
   return utils_default.isPlainObject(thing) || utils_default.isArray(thing);
 }
@@ -662,7 +662,7 @@ function toFormData(obj, formData, options) {
 }
 var toFormData_default = toFormData;
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/helpers/AxiosURLSearchParams.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/helpers/AxiosURLSearchParams.js
 function encode(str) {
   const charMap = {
     "!": "%21",
@@ -694,7 +694,7 @@ prototype.toString = function toString2(encoder) {
 };
 var AxiosURLSearchParams_default = AxiosURLSearchParams;
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/helpers/buildURL.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/helpers/buildURL.js
 function encode2(val) {
   return encodeURIComponent(val).replace(/%3A/gi, ":").replace(/%24/g, "$").replace(/%2C/gi, ",").replace(/%20/g, "+");
 }
@@ -723,7 +723,7 @@ function buildURL(url, params, options) {
   return url;
 }
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/core/InterceptorManager.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/core/InterceptorManager.js
 var InterceptorManager = class {
   constructor() {
     this.handlers = [];
@@ -788,7 +788,7 @@ var InterceptorManager = class {
 };
 var InterceptorManager_default = InterceptorManager;
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/defaults/transitional.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/defaults/transitional.js
 var transitional_default = {
   silentJSONParsing: true,
   forcedJSONParsing: true,
@@ -796,16 +796,16 @@ var transitional_default = {
   legacyInterceptorReqResOrdering: true
 };
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/platform/browser/classes/URLSearchParams.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/platform/browser/classes/URLSearchParams.js
 var URLSearchParams_default = typeof URLSearchParams !== "undefined" ? URLSearchParams : AxiosURLSearchParams_default;
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/platform/browser/classes/FormData.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/platform/browser/classes/FormData.js
 var FormData_default = typeof FormData !== "undefined" ? FormData : null;
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/platform/browser/classes/Blob.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/platform/browser/classes/Blob.js
 var Blob_default = typeof Blob !== "undefined" ? Blob : null;
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/platform/browser/index.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/platform/browser/index.js
 var browser_default = {
   isBrowser: true,
   classes: {
@@ -816,7 +816,7 @@ var browser_default = {
   protocols: ["http", "https", "file", "blob", "url", "data"]
 };
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/platform/common/utils.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/platform/common/utils.js
 var utils_exports = {};
 __export(utils_exports, {
   hasBrowserEnv: () => hasBrowserEnv,
@@ -834,13 +834,13 @@ var hasStandardBrowserWebWorkerEnv = (() => {
 })();
 var origin = hasBrowserEnv && window.location.href || "http://localhost";
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/platform/index.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/platform/index.js
 var platform_default = {
   ...utils_exports,
   ...browser_default
 };
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/helpers/toURLEncodedForm.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/helpers/toURLEncodedForm.js
 function toURLEncodedForm(data, options) {
   return toFormData_default(data, new platform_default.classes.URLSearchParams(), {
     visitor: function(value, key, path, helpers) {
@@ -854,7 +854,7 @@ function toURLEncodedForm(data, options) {
   });
 }
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/helpers/formDataToJSON.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/helpers/formDataToJSON.js
 function parsePropPath(name) {
   return utils_default.matchAll(/\w+|\[(\w*)]/g, name).map((match) => {
     return match[0] === "[]" ? "" : match[1] || match[0];
@@ -908,7 +908,7 @@ function formDataToJSON(formData) {
 }
 var formDataToJSON_default = formDataToJSON;
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/defaults/index.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/defaults/index.js
 var own = (obj, key) => obj != null && utils_default.hasOwnProp(obj, key) ? obj[key] : void 0;
 function stringifySafely(rawValue, parser, encoder) {
   if (utils_default.isString(rawValue)) {
@@ -1025,7 +1025,7 @@ utils_default.forEach(["delete", "get", "head", "post", "put", "patch"], (method
 });
 var defaults_default = defaults;
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/helpers/parseHeaders.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/helpers/parseHeaders.js
 var ignoreDuplicateOf = utils_default.toObjectSet([
   "age",
   "authorization",
@@ -1070,7 +1070,7 @@ var parseHeaders_default = (rawHeaders) => {
   return parsed;
 };
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/core/AxiosHeaders.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/core/AxiosHeaders.js
 var $internals = Symbol("internals");
 var INVALID_HEADER_VALUE_CHARS_RE = /[^\x09\x20-\x7E\x80-\xFF]/g;
 function trimSPorHTAB(str) {
@@ -1330,7 +1330,7 @@ utils_default.reduceDescriptors(AxiosHeaders.prototype, ({ value }, key) => {
 utils_default.freezeMethods(AxiosHeaders);
 var AxiosHeaders_default = AxiosHeaders;
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/core/transformData.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/core/transformData.js
 function transformData(fns, response) {
   const config = this || defaults_default;
   const context = response || config;
@@ -1343,12 +1343,12 @@ function transformData(fns, response) {
   return data;
 }
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/cancel/isCancel.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/cancel/isCancel.js
 function isCancel(value) {
   return !!(value && value.__CANCEL__);
 }
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/cancel/CanceledError.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/cancel/CanceledError.js
 var CanceledError = class extends AxiosError_default {
   /**
    * A `CanceledError` is an object that is thrown when an operation is canceled.
@@ -1367,7 +1367,7 @@ var CanceledError = class extends AxiosError_default {
 };
 var CanceledError_default = CanceledError;
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/core/settle.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/core/settle.js
 function settle(resolve, reject, response) {
   const validateStatus2 = response.config.validateStatus;
   if (!response.status || !validateStatus2 || validateStatus2(response.status)) {
@@ -1385,13 +1385,13 @@ function settle(resolve, reject, response) {
   }
 }
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/helpers/parseProtocol.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/helpers/parseProtocol.js
 function parseProtocol(url) {
   const match = /^([-+\w]{1,25})(:?\/\/|:)/.exec(url);
   return match && match[1] || "";
 }
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/helpers/speedometer.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/helpers/speedometer.js
 function speedometer(samplesCount, min) {
   samplesCount = samplesCount || 10;
   const bytes = new Array(samplesCount);
@@ -1427,7 +1427,7 @@ function speedometer(samplesCount, min) {
 }
 var speedometer_default = speedometer;
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/helpers/throttle.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/helpers/throttle.js
 function throttle(fn, freq) {
   let timestamp = 0;
   let threshold = 1e3 / freq;
@@ -1462,7 +1462,7 @@ function throttle(fn, freq) {
 }
 var throttle_default = throttle;
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/helpers/progressEventReducer.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/helpers/progressEventReducer.js
 var progressEventReducer = (listener, isDownloadStream, freq = 3) => {
   let bytesNotified = 0;
   const _speedometer = speedometer_default(50, 250);
@@ -1500,7 +1500,7 @@ var progressEventDecorator = (total, throttled) => {
 };
 var asyncDecorator = (fn) => (...args) => utils_default.asap(() => fn(...args));
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/helpers/isURLSameOrigin.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/helpers/isURLSameOrigin.js
 var isURLSameOrigin_default = platform_default.hasStandardBrowserEnv ? /* @__PURE__ */ ((origin2, isMSIE) => (url) => {
   url = new URL(url, platform_default.origin);
   return origin2.protocol === url.protocol && origin2.host === url.host && (isMSIE || origin2.port === url.port);
@@ -1509,7 +1509,7 @@ var isURLSameOrigin_default = platform_default.hasStandardBrowserEnv ? /* @__PUR
   platform_default.navigator && /(msie|trident)/i.test(platform_default.navigator.userAgent)
 ) : () => true;
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/helpers/cookies.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/helpers/cookies.js
 var cookies_default = platform_default.hasStandardBrowserEnv ? (
   // Standard browser envs support document.cookie
   {
@@ -1557,7 +1557,7 @@ var cookies_default = platform_default.hasStandardBrowserEnv ? (
   }
 );
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/helpers/isAbsoluteURL.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/helpers/isAbsoluteURL.js
 function isAbsoluteURL(url) {
   if (typeof url !== "string") {
     return false;
@@ -1565,12 +1565,12 @@ function isAbsoluteURL(url) {
   return /^([a-z][a-z\d+\-.]*:)?\/\//i.test(url);
 }
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/helpers/combineURLs.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/helpers/combineURLs.js
 function combineURLs(baseURL, relativeURL) {
   return relativeURL ? baseURL.replace(/\/?\/$/, "") + "/" + relativeURL.replace(/^\/+/, "") : baseURL;
 }
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/core/buildFullPath.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/core/buildFullPath.js
 function buildFullPath(baseURL, requestedURL, allowAbsoluteUrls) {
   let isRelativeUrl = !isAbsoluteURL(requestedURL);
   if (baseURL && (isRelativeUrl || allowAbsoluteUrls === false)) {
@@ -1579,7 +1579,7 @@ function buildFullPath(baseURL, requestedURL, allowAbsoluteUrls) {
   return requestedURL;
 }
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/core/mergeConfig.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/core/mergeConfig.js
 var headersToObject = (thing) => thing instanceof AxiosHeaders_default ? { ...thing } : thing;
 function mergeConfig(config1, config2) {
   config2 = config2 || {};
@@ -1670,7 +1670,7 @@ function mergeConfig(config1, config2) {
   return config;
 }
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/helpers/resolveConfig.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/helpers/resolveConfig.js
 var resolveConfig_default = (config) => {
   const newConfig = mergeConfig({}, config);
   const own2 = (key) => utils_default.hasOwnProp(newConfig, key) ? newConfig[key] : void 0;
@@ -1725,7 +1725,7 @@ var resolveConfig_default = (config) => {
   return newConfig;
 };
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/adapters/xhr.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/adapters/xhr.js
 var isXHRAdapterSupported = typeof XMLHttpRequest !== "undefined";
 var xhr_default = isXHRAdapterSupported && function(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -1867,7 +1867,7 @@ var xhr_default = isXHRAdapterSupported && function(config) {
   });
 };
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/helpers/composeSignals.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/helpers/composeSignals.js
 var composeSignals = (signals, timeout) => {
   const { length } = signals = signals ? signals.filter(Boolean) : [];
   if (timeout || length) {
@@ -1905,7 +1905,7 @@ var composeSignals = (signals, timeout) => {
 };
 var composeSignals_default = composeSignals;
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/helpers/trackStream.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/helpers/trackStream.js
 var streamChunk = function* (chunk, chunkSize) {
   let len = chunk.byteLength;
   if (!chunkSize || len < chunkSize) {
@@ -1985,7 +1985,7 @@ var trackStream = (stream, chunkSize, onProgress, onFinish) => {
   );
 };
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/adapters/fetch.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/adapters/fetch.js
 var DEFAULT_CHUNK_SIZE = 64 * 1024;
 var { isFunction: isFunction2 } = utils_default;
 var globalFetchAPI = (({ Request, Response }) => ({
@@ -2217,7 +2217,7 @@ var getFetch = (config) => {
 };
 var adapter = getFetch();
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/adapters/adapters.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/adapters/adapters.js
 var knownAdapters = {
   http: null_default,
   xhr: xhr_default,
@@ -2282,7 +2282,7 @@ var adapters_default = {
   adapters: knownAdapters
 };
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/core/dispatchRequest.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/core/dispatchRequest.js
 function throwIfCancellationRequested(config) {
   if (config.cancelToken) {
     config.cancelToken.throwIfRequested();
@@ -2323,10 +2323,10 @@ function dispatchRequest(config) {
   );
 }
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/env/data.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/env/data.js
 var VERSION = "1.15.2";
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/helpers/validator.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/helpers/validator.js
 var validators = {};
 ["object", "boolean", "number", "function", "string", "symbol"].forEach((type, i) => {
   validators[type] = function validator(thing) {
@@ -2393,7 +2393,7 @@ var validator_default = {
   validators
 };
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/core/Axios.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/core/Axios.js
 var validators2 = validator_default.validators;
 var Axios = class {
   constructor(instanceConfig) {
@@ -2593,7 +2593,7 @@ utils_default.forEach(["post", "put", "patch"], function forEachMethodWithData(m
 });
 var Axios_default = Axios;
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/cancel/CancelToken.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/cancel/CancelToken.js
 var CancelToken = class _CancelToken {
   constructor(executor) {
     if (typeof executor !== "function") {
@@ -2692,19 +2692,19 @@ var CancelToken = class _CancelToken {
 };
 var CancelToken_default = CancelToken;
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/helpers/spread.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/helpers/spread.js
 function spread(callback) {
   return function wrap(arr) {
     return callback.apply(null, arr);
   };
 }
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/helpers/isAxiosError.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/helpers/isAxiosError.js
 function isAxiosError(payload) {
   return utils_default.isObject(payload) && payload.isAxiosError === true;
 }
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/helpers/HttpStatusCode.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/helpers/HttpStatusCode.js
 var HttpStatusCode = {
   Continue: 100,
   SwitchingProtocols: 101,
@@ -2781,7 +2781,7 @@ Object.entries(HttpStatusCode).forEach(([key, value]) => {
 });
 var HttpStatusCode_default = HttpStatusCode;
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/lib/axios.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/lib/axios.js
 function createInstance(defaultConfig) {
   const context = new Axios_default(defaultConfig);
   const instance = bind(Axios_default.prototype.request, context);
@@ -2814,7 +2814,7 @@ axios.HttpStatusCode = HttpStatusCode_default;
 axios.default = axios;
 var axios_default = axios;
 
-// C:/Users/34447/Desktop/设计大赛/代码/伴学镜-前端/node_modules/axios/index.js
+// ../../../伴学镜/伴学镜-前端/node_modules/axios/index.js
 var {
   Axios: Axios2,
   AxiosError: AxiosError2,

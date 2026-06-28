@@ -11,9 +11,9 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # JWT配置
-    JWT_SECRET_KEY = 'your-secret-key-here'  # 用于JWT令牌签名
-    JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)  # 令牌过期时间
-    SECRET_KEY = 'your-flask-secret-key-here'  # Flask应用密钥
+    JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY', 'your-secret-key-here')
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
+    SECRET_KEY = os.environ.get('SECRET_KEY', 'your-flask-secret-key-here')
     
     # 邮件配置（保持原有邮箱验证功能）
     MAIL_SERVER = 'smtp.qq.com'
