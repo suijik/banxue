@@ -90,12 +90,12 @@ def register():
     if User.query.filter_by(email=email).first():
         return jsonify({'success': False, 'message': '邮箱已存在'}), 400
 
-    # 创建新用户
+    # 创建新用户（使用哈希密码）
     try:
         new_user = User(
             username=data['username'],
             email=data['email'],
-            password=generate_password_hash(data['password'])
+            password=generate_password_hash(data['password'])  # ← 哈希存储
         )
         db.session.add(new_user)
         db.session.commit()
@@ -125,8 +125,9 @@ def login():
     if password is None or len(password) < 8:
         return jsonify({'success': False, 'message': '密码至少8位'}), 400
 
-    # 查找用户
+    # 查找用户并使用哈希验证密码
     user = User.query.filter_by(username=username).first()
+    # ↓ 修改：使用 check_password_hash 验证
     if user and check_password_hash(user.password, password):
         logger.info(f"用户 {username} 登录成功")
 
@@ -237,12 +238,13 @@ def update_userinfo():
             user.username = new_username
             logger.info(f"已更新用户名从 {current_username} 到 {new_username}")
 
-        # 更新密码（如果提供）
+        # 更新密码（如果提供）- 使用哈希存储
         new_password = data.get('password')
         if new_password:
             if len(new_password) < 8:
                 logger.error("错误：密码长度不足")
                 return jsonify({'success': False, 'message': '密码至少8位'}), 400
+            # ↓ 修改：使用哈希存储
             user.password = generate_password_hash(new_password)
             logger.info(f"已更新用户 {username} 的密码")
 
