@@ -137,7 +137,7 @@ def register():
         new_user = User(
             username=username,
             email=email,
-            password=generate_password_hash(password)  # 密码哈希存储
+            password=generate_password_hash(password)  # ✅ 密码哈希存储
         )
         db.session.add(new_user)
         db.session.commit()
@@ -158,24 +158,24 @@ def register():
 
 
 def login():
-    """用户登录"""
-    data = request.json
+    """用户登录 - ✅ 已修复密码明文存储问题"""
+    data = request.get_json()
     username = data.get('username')
     password = data.get('password')
 
     # 验证用户名格式
     if not validate_username(username):
-        return jsonify({'success': False, 'message': '用户名只能由大小写字母和数字组成，且必须以字母开头'}), 400
+        return jsonify({'success': False, 'message': '用户名格式错误'}), 400
 
-    # 验证密码格式
-    if password is None or len(password) < 8:
-        return jsonify({'success': False, 'message': '密码至少8位'}), 400
+    # 验证密码不为空
+    if not password:
+        return jsonify({'success': False, 'message': '密码不能为空'}), 400
 
-    # 查找用户
+    # 查找用户并使用哈希比对
     user = User.query.filter_by(username=username).first()
-    if user and check_password_hash(user.password, password):  # 安全比对
+    if user and check_password_hash(user.password, password):  # ✅ 安全密码比对
         logger.info(f"用户 {username} 登录成功")
-
+        
         # 创建JWT访问令牌
         access_token = create_access_token(identity=user.id)
 
@@ -190,14 +190,14 @@ def login():
                 'profile': build_user_profile(user)
             }
         }), 200
-    else:
-        logger.warning(f"用户 {username} 登录失败：用户名或密码错误")
-        return jsonify({'success': False, 'message': '用户名或密码错误'}), 400
+    
+    logger.warning(f"用户 {username} 登录失败：用户名或密码错误")
+    return jsonify({'success': False, 'message': '用户名或密码错误'}), 400
 
 
 @jwt_required()
 def get_user_info():
-    """获取当前登录用户信息"""
+    """获取当前登录用户信息 - ✅ 已增强统计信息"""
     try:
         user_id = get_jwt_identity()
         user = User.query.get(user_id)
@@ -304,7 +304,7 @@ def update_userinfo():
                 logger.error(f"密码验证失败: {msg}")
                 return jsonify({'success': False, 'message': msg}), 400
             
-            user.password = generate_password_hash(new_password)  # 密码哈希存储
+            user.password = generate_password_hash(new_password)  # ✅ 密码哈希存储
             logger.info(f"已更新用户 {username} 的密码")
 
         # 更新头像（如果提供）

@@ -138,50 +138,34 @@ def should_update_question(current_question, refined_question, stem_summary):
         return True
     return False
 
+# ↓ 修改：添加 @jwt_required()，移除 username 参数
+@jwt_required()
 def get_mistakes():
-    """获取用户的错题列表"""
+    """获取用户的错题列表（从JWT获取用户身份）"""
     try:
         print("=== 开始获取错题列表 ===")
-        username = request.args.get('username')
-        if not username:
-            return jsonify({
-                'success': False,
-                'message': '用户名不能为空'
-            }), 400
-            
-        print(f"当前用户名: {username}")
+        # 从JWT获取用户ID
+        user_id = get_jwt_identity()
+        print(f"当前用户ID: {user_id}")
         
         # 获取查询参数
         subject = request.args.get('subject')
         is_mastered = request.args.get('is_mastered')
+        group_by_exam = request.args.get('group_by_exam', 'false').lower() == 'true'
         print(f"查询参数 - subject: {subject}, is_mastered: {is_mastered}")
         
-        # 先获取用户
-        user = User.query.filter_by(username=username).first()
-        if not user:
-            return jsonify({
-                'success': False,
-                'message': '用户不存在'
-            }), 404
-            
-        # 构建查询
-        query = Mistake.query.filter_by(user_id=user.id)
+        # 构建查询（直接使用user_id）
+        query = Mistake.query.filter_by(user_id=user_id)
         
         if subject:
             query = query.filter_by(subject=subject)
         if is_mastered is not None:
-            # 将字符串转换为布尔值
             is_mastered_bool = is_mastered.lower() == 'true'
             query = query.filter_by(is_mastered=is_mastered_bool)
-        
-        group_by_exam = request.args.get('group_by_exam', 'false').lower() == 'true'
 
         # 执行查询
         mistakes = query.order_by(Mistake.created_at.desc()).all()
         print(f"查询到 {len(mistakes)} 条错题记录")
-
-        # 错题本列表接口应尽量轻量，避免每次打开页面都触发原卷重读和视觉模型二次修复。
-        # 如需修复题干，应在入库阶段或详情页按需处理，而不是阻塞列表加载。
 
         if group_by_exam:
             grouped = {}
@@ -230,6 +214,25 @@ def get_mistakes():
             'message': f'获取错题列表失败: {str(e)}'
         }), 500
 
+# ↓ 新增：错题统计接口
+@jwt_required()
+def get_mistake_stats():
+    """获取当前用户的错题统计（总数、已掌握数）- 仅返回COUNT结果"""
+    try:
+        user_id = get_jwt_identity()
+        total = Mistake.query.filter_by(user_id=user_id).count()
+        mastered = Mistake.query.filter_by(user_id=user_id, is_mastered=True).count()
+        return jsonify({
+            'success': True,
+            'data': {
+                'total': total,
+                'mastered': mastered
+            }
+        })
+    except Exception as e:
+        print(f"获取错题统计失败: {str(e)}")
+        return jsonify({'success': False, 'message': str(e)}), 500
+
 @jwt_required()
 def create_mistake():
     """创建新的错题记录"""
@@ -254,35 +257,21 @@ def create_mistake():
         'data': mistake.to_dict()
     }), 201
 
+# ↓ 修改：添加 @jwt_required()，从JWT获取用户身份
+@jwt_required()
 def update_mistake(mistake_id):
-    """更新错题记录"""
+    """更新错题记录（从JWT获取用户身份）"""
     try:
+        # 从JWT获取用户ID
+        user_id = get_jwt_identity()
+        
         # 获取请求数据
         data = request.get_json()
         if not data:
             print("错误：请求体为空")
             return jsonify({'success': False, 'message': '请求体不能为空'}), 400
-            
-        # 通过username参数获取用户ID
-        username = data.get('username')
-        if not username:
-            print("错误：未提供username参数")
-            return jsonify({
-                'success': False,
-                'message': '请提供username参数'
-            }), 400
         
-        # 查找用户
-        user = User.query.filter_by(username=username).first()
-        if not user:
-            print(f"错误：找不到用户 {username}")
-            return jsonify({
-                'success': False,
-                'message': '用户不存在'
-            }), 404
-        
-        user_id = user.id
-        print(f"更新错题请求: 错题ID={mistake_id}, 用户ID={user_id}, 用户名={username}")
+        print(f"更新错题请求: 错题ID={mistake_id}, 用户ID={user_id}")
         
         # 查找错题记录
         mistake = Mistake.query.filter_by(id=mistake_id).first()
@@ -315,7 +304,6 @@ def update_mistake(mistake_id):
         if 'error_type' in data:
             mistake.error_type = data['error_type']
         if 'is_mastered' in data:
-            # 确保is_mastered是布尔值
             is_mastered = data['is_mastered']
             if isinstance(is_mastered, str):
                 is_mastered = is_mastered.lower() == 'true'
@@ -353,24 +341,22 @@ def delete_mistake(mistake_id):
         'message': '删除错题成功'
     }), 200
 
-
+# ↓ 修改：添加 @jwt_required()，从JWT获取用户身份
+@jwt_required()
 def delete_mistake_group():
-    """按试卷分组删除整组错题"""
+    """按试卷分组删除整组错题（从JWT获取用户身份）"""
     try:
         data = request.get_json()
         if not data:
             return jsonify({'success': False, 'message': '请求体不能为空'}), 400
 
-        username = data.get('username')
+        # 从JWT获取用户ID
+        user_id = get_jwt_identity()
         group_id = data.get('group_id')
-        if not username or not group_id:
-            return jsonify({'success': False, 'message': '缺少必要参数'}), 400
+        if not group_id:
+            return jsonify({'success': False, 'message': '缺少group_id参数'}), 400
 
-        user = User.query.filter_by(username=username).first()
-        if not user:
-            return jsonify({'success': False, 'message': '用户不存在'}), 404
-
-        mistakes = Mistake.query.filter_by(user_id=user.id).all()
+        mistakes = Mistake.query.filter_by(user_id=user_id).all()
         target_mistakes = []
         for mistake in mistakes:
             mistake_data = sanitize_mistake_payload(mistake.to_dict())
@@ -402,6 +388,9 @@ def delete_mistake_group():
             'message': f'删除整组错题失败: {str(e)}'
         }), 500
 
+# ===== 以下两个函数（get_practice_questions、update_practice_question、delete_practice_question）
+# 暂未添加JWT，可按同样方式改造 =====
+
 def get_practice_questions():
     """获取练习题列表"""
     try:
@@ -412,7 +401,6 @@ def get_practice_questions():
                 'message': '用户名不能为空'
             }), 400
             
-        # 获取用户
         user = User.query.filter_by(username=username).first()
         if not user:
             return jsonify({
@@ -420,15 +408,11 @@ def get_practice_questions():
                 'message': '用户不存在'
             }), 404
             
-        # 获取查询参数
         subject = request.args.get('subject')
-        
-        # 构建查询
         query = PracticeQuestion.query.filter_by(user_id=user.id)
         if subject:
             query = query.filter_by(subject=subject)
         
-        # 执行查询
         questions = query.order_by(PracticeQuestion.created_at.desc()).all()
         
         return jsonify({
@@ -447,61 +431,46 @@ def get_practice_questions():
 def update_practice_question(question_id):
     """更新练习题掌握状态"""
     try:
-        # 获取请求数据
         data = request.get_json()
         if not data:
-            print("错误：请求体为空")
             return jsonify({'success': False, 'message': '请求体不能为空'}), 400
             
-        # 通过username参数获取用户ID
         username = data.get('username')
         if not username:
-            print("错误：未提供username参数")
             return jsonify({
                 'success': False,
                 'message': '请提供username参数'
             }), 400
         
-        # 查找用户
         user = User.query.filter_by(username=username).first()
         if not user:
-            print(f"错误：找不到用户 {username}")
             return jsonify({
                 'success': False,
                 'message': '用户不存在'
             }), 404
         
         user_id = user.id
-        print(f"更新练习题请求: 题目ID={question_id}, 用户ID={user_id}, 用户名={username}")
         
-        # 查找练习题记录
         question = PracticeQuestion.query.filter_by(id=question_id).first()
         if not question:
-            print(f"错误：练习题不存在: ID={question_id}")
             return jsonify({
                 'success': False,
                 'message': '练习题不存在'
             }), 404
             
-        # 验证练习题所属的用户
         if question.user_id != user_id:
-            print(f"权限错误: 练习题所属用户ID={question.user_id}, 请求用户ID={user_id}")
             return jsonify({
                 'success': False,
                 'message': '没有权限修改此练习题'
             }), 403
         
-        # 更新掌握状态
         if 'is_mastered' in data:
-            # 确保is_mastered是布尔值
             is_mastered = data['is_mastered']
             if isinstance(is_mastered, str):
                 is_mastered = is_mastered.lower() == 'true'
             question.is_mastered = bool(is_mastered)
-            print(f"设置练习题is_mastered={question.is_mastered}")
         
         db.session.commit()
-        print(f"练习题更新成功: ID={question_id}")
         return jsonify({
             'success': True,
             'message': '更新练习题成功',
@@ -509,12 +478,9 @@ def update_practice_question(question_id):
         })
     except Exception as e:
         db.session.rollback()
-        error_msg = str(e)
-        print(f"更新练习题失败: {error_msg}")
-        print(f"错误详情: {traceback.format_exc()}")
         return jsonify({
             'success': False,
-            'message': f'更新练习题失败: {error_msg}'
+            'message': f'更新练习题失败: {str(e)}'
         }), 500
 
 def delete_practice_question(question_id):
@@ -528,23 +494,19 @@ def delete_practice_question(question_id):
         if not username:
             return jsonify({'success': False, 'message': '请提供username参数'}), 400
             
-        # 查找用户
         user = User.query.filter_by(username=username).first()
         if not user:
             return jsonify({'success': False, 'message': '用户不存在'}), 404
             
-        # 查找练习题记录
         question = PracticeQuestion.query.filter_by(id=question_id).first()
         if not question:
             return jsonify({'success': False, 'message': '练习题不存在'}), 404
             
-        # 验证权限
         if question.user_id != user.id:
             return jsonify({'success': False, 'message': '没有权限修改此练习题'}), 403
             
         db.session.delete(question)
         db.session.commit()
-        print(f"成功删除练习题 ID: {question_id}")
         
         return jsonify({
             'success': True,
@@ -552,9 +514,7 @@ def delete_practice_question(question_id):
         })
     except Exception as e:
         db.session.rollback()
-        print(f"删除练习题失败: {str(e)}")
         return jsonify({
             'success': False,
             'message': f'删除练习题失败: {str(e)}'
         }), 500
-
