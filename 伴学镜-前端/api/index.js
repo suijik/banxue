@@ -1,8 +1,8 @@
 import { ref } from 'vue';
 
 // API基础配置
-export const baseURL = 'http://101.43.79.198:5000/api'; // 根据实际API地址修改
-export const serverURL = 'http://101.43.79.198:5000'; // 后端服务基础地址
+export const baseURL = 'http://127.0.0.1:5000/api'; // 根据实际API地址修改
+export const serverURL = 'http://127.0.0.1:5000'; // 后端服务基础地址
 
 // 创建请求函数
 const request = (options) => {
@@ -37,6 +37,7 @@ const request = (options) => {
       method: options.method || 'GET',
       data: options.data,
       header: headers,
+      timeout: 10000,
       success: (res) => {
         console.log(`请求成功: ${url}`, res.data);
         

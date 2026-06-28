@@ -23,7 +23,7 @@ const api = axios.create({
 
 // 直接API实例
 const directApi = axios.create({
-  baseURL: 'http://101.43.79.198:5000/api',
+  baseURL: 'http://127.0.0.1:5000/api',
   timeout: 60000,
   headers: {
     'Content-Type': 'application/json'
