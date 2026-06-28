@@ -1,11 +1,3 @@
-from flask import Blueprint, jsonify, request
-from models import db, ExamAnalysis, Mistake, PracticeQuestion, User
-from sqlalchemy import func
-from datetime import datetime, timedelta
-from utils import generate_parent_advice
-
-report_bp = Blueprint('report', __name__)
-
 @report_bp.route('/parent-dashboard/<username>', methods=['GET'])
 def get_parent_dashboard(username):
     """获取家长辅导面板数据（周报、话术建议、雷达图、折线图等）"""
@@ -58,12 +50,31 @@ def get_parent_dashboard(username):
         }
 
         # 2.2 折线图数据 (练习题掌握率/正确率趋势 - 最近7天)
+        # 优化：使用字典按日期分组，O(1)查找
         dates = [(datetime.now() - timedelta(days=i)).strftime('%m-%d') for i in range(6, -1, -1)]
         
+        # 构建练习数据的日期字典
+        practice_dict = {}
+        for p in recent_practices:
+            date_key = p.created_at.strftime('%m-%d')
+            if date_key not in practice_dict:
+                practice_dict[date_key] = []
+            practice_dict[date_key].append(p)
+        
+        # 构建错题数据的日期字典（用于调整掌握率）
+        mistake_dict = {}
+        for m in recent_mistakes:
+            date_key = m.created_at.strftime('%m-%d')
+            if date_key not in mistake_dict:
+                mistake_dict[date_key] = 0
+            mistake_dict[date_key] += 1
+        
+        # 使用字典 O(1) 查找计算每天的数据
         mastery_rate_data = []
         for date_str in dates:
-            # 找到当天创建的练习题
-            daily_practices = [p for p in recent_practices if p.created_at.strftime('%m-%d') == date_str]
+            daily_practices = practice_dict.get(date_str, [])
+            daily_mistakes = mistake_dict.get(date_str, 0)
+            
             if daily_practices:
                 mastered = sum(1 for p in daily_practices if p.is_mastered)
                 rate = int((mastered / len(daily_practices)) * 100)
@@ -72,7 +83,6 @@ def get_parent_dashboard(username):
                 rate = 0
                 
             # 根据错题数稍微加点波动，显得更真实
-            daily_mistakes = sum(1 for m in recent_mistakes if m.created_at.strftime('%m-%d') == date_str)
             rate = max(0, min(100, rate - daily_mistakes * 5))
             mastery_rate_data.append(rate)
 
@@ -115,4 +125,4 @@ def get_parent_dashboard(username):
         return jsonify({
             'success': False,
             'message': str(e)
-        }), 500 
+        }), 500

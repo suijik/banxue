@@ -127,40 +127,23 @@ def login():
 
     # 查找用户
     user = User.query.filter_by(username=username).first()
-    if user:
-        # 兼容处理：先尝试用 bcrypt 验证（新注册的加密用户）
-        if check_password_hash(user.password, password):
-            password_matched = True
-        # 如果 bcrypt 验证失败，尝试明文比对（旧用户之前存的明文密码）
-        elif user.password == password:
-            password_matched = True
-            # 自动升级：将明文密码更新为加密密码
-            user.password = generate_password_hash(password)
-            db.session.commit()
-            logger.info(f"用户 {username} 密码已自动升级为加密存储")
-        else:
-            password_matched = False
+    if user and check_password_hash(user.password, password):
+        logger.info(f"用户 {username} 登录成功")
 
-        if password_matched:
-            logger.info(f"用户 {username} 登录成功")
+        # 创建JWT访问令牌
+        access_token = create_access_token(identity=user.id)
 
-            # 创建JWT访问令牌
-            access_token = create_access_token(identity=user.id)
-
-            return jsonify({
-                'success': True,
-                'message': '登录成功',
-                'data': {
-                    'username': user.username,
-                    'email': user.email,
-                    'avatar': user.avatar,
-                    'access_token': access_token,
-                    'profile': build_user_profile(user)
-                }
-            }), 200
-        else:
-            logger.warning(f"用户 {username} 登录失败：用户名或密码错误")
-            return jsonify({'success': False, 'message': '用户名或密码错误'}), 400
+        return jsonify({
+            'success': True,
+            'message': '登录成功',
+            'data': {
+                'username': user.username,
+                'email': user.email,
+                'avatar': user.avatar,
+                'access_token': access_token,
+                'profile': build_user_profile(user)
+            }
+        }), 200
     else:
         logger.warning(f"用户 {username} 登录失败：用户名或密码错误")
         return jsonify({'success': False, 'message': '用户名或密码错误'}), 400
