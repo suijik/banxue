@@ -114,8 +114,6 @@ export default {
       showSubjectPicker: false,
       isLoading: true,
       userInfo: {
-        username: uni.getStorageSync('user') ? JSON.parse(uni.getStorageSync('user')).username : ''
-      }
     };
   },
   computed: {
@@ -163,10 +161,9 @@ export default {
       this.showSubjectPicker = !this.showSubjectPicker;
     },
     async loadExamAnalyses() {
-      if (!this.userInfo.username) return;
       this.isLoading = true;
       try {
-        const res = await examAPI.getHistory(this.userInfo.username);
+        const res = await examAPI.getHistory();
         if (res.success) {
           this.examAnalyses = res.data;
         }

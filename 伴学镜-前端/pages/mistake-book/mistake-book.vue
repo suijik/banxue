@@ -229,32 +229,12 @@ export default {
     }
   },
   onLoad() {
-    this.initUserInfo();
+    this.loadMistakes();
   },
   onShow() {
-    this.initUserInfo();
     this.loadMistakes();
   },
   methods: {
-    initUserInfo() {
-      const user = uni.getStorageSync('user');
-      if (!user) {
-        this.userInfo.username = '';
-        return;
-      }
-
-      if (typeof user === 'string') {
-        try {
-          const parsed = JSON.parse(user);
-          this.userInfo.username = parsed.username || '';
-        } catch (error) {
-          this.userInfo.username = '';
-        }
-        return;
-      }
-
-      this.userInfo.username = user.username || '';
-    },
     goBack() {
       uni.navigateBack({
         delta: 1,
@@ -282,11 +262,9 @@ export default {
       this.$set(this.expandedExplanations, mistakeId, !this.expandedExplanations[mistakeId]);
     },
     async loadMistakes() {
-      if (!this.userInfo.username) return;
       this.isLoading = true;
       try {
         const res = await mistakeAPI.getMistakes({
-          username: this.userInfo.username,
           group_by_exam: true,
           is_mastered: this.currentMastery === 'mastered' ? 'true' : 'false'
         });
@@ -314,7 +292,7 @@ export default {
           if (res.confirm) {
             try {
               uni.showLoading({ title: '删除中...' });
-              const result = await mistakeAPI.deleteMistake(id, { username: this.userInfo.username });
+              const result = await mistakeAPI.deleteMistake(id);
               if (result.success) {
                 uni.showToast({ title: '删除成功', icon: 'success' });
                 this.loadMistakes();
@@ -338,7 +316,6 @@ export default {
           try {
             uni.showLoading({ title: '删除中...' });
             const result = await mistakeAPI.deleteMistakeGroup({
-              username: this.userInfo.username,
               group_id: group.group_id
             });
             if (result.success) {
@@ -388,7 +365,6 @@ export default {
           try {
             uni.showLoading({ title: '保存中...', mask: true });
             const result = await mistakeAPI.updateMistake(mistake.id, {
-              username: this.userInfo.username,
               error_type: selectedType
             });
             if (result.success) {
@@ -413,7 +389,6 @@ export default {
       try {
         uni.showLoading({ title: nextValue ? '标记中...' : '更新中...', mask: true });
         const result = await mistakeAPI.updateMistake(mistake.id, {
-          username: this.userInfo.username,
           is_mastered: nextValue
         });
         if (!result.success) {

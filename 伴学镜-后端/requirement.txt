@@ -3,8 +3,8 @@ flask_mail
 flask_cors
 flask_sqlalchemy
 flask_migrate
-flask_jwt_extended
+flask_jwt_extended==4.7.1
 opencv_python
-easyocr
 openai
 pytesseract
+zhipuai

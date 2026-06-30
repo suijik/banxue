@@ -126,7 +126,7 @@ const authAPI = {
   
   // 试卷分析相关API
   uploadExamPaper: (data) => api.post('/upload_exam_paper', data),
-  getExamAnalyses: (username) => api.get('/exam_analyses', { params: { username } }),
+  getExamAnalyses: () => api.get('/exam_analyses'),
   getExamAnalysisDetail: (analysisId) => api.get(`/exam_analysis/${analysisId}`),
   
   // 错题本相关API
@@ -153,7 +153,7 @@ const directAPI = {
   
   // 试卷分析相关API
   uploadExamPaper: (data) => directApi.post('/upload_exam_paper', data),
-  getExamAnalyses: (username) => directApi.get('/exam_analyses', { params: { username } }),
+  getExamAnalyses: () => directApi.get('/exam_analyses'),
   getExamAnalysisDetail: (analysisId) => directApi.get(`/exam_analysis/${analysisId}`),
   
   // 错题本相关API

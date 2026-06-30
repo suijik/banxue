@@ -37,7 +37,6 @@ const request = (options) => {
       method: options.method || 'GET',
       data: options.data,
       header: headers,
-      timeout: 10000,
       success: (res) => {
         console.log(`请求成功: ${url}`, res.data);
         
@@ -142,9 +141,8 @@ const examAPI = {
   }),
   
   // 获取历史分析记录
-  getHistory: (username) => request({
-    url: '/exam_analyses',
-    params: { username }  // 直接传递用户名字符串
+  getHistory: () => request({
+    url: '/exam_analyses'
   }),
   
   // 获取用户科目列表
@@ -169,8 +167,7 @@ const mistakeAPI = {
   
   // 获取单个错题详情
   getMistake: (params) => request({
-    url: `/mistakes/${params.id}`,
-    params: { username: params.username }
+    url: `/mistakes/${params.id}`
   }),
   
   // 获取错题详情（无需验证登录状态）
@@ -186,10 +183,9 @@ const mistakeAPI = {
   }),
   
   // 删除错题
-  deleteMistake: (id, data) => request({
+  deleteMistake: (id) => request({
     url: `/mistakes/${id}`,
-    method: 'DELETE',
-    data
+    method: 'DELETE'
   }),
 
   // 删除整张试卷下的错题
@@ -254,8 +250,8 @@ const knowledgeAPI = {
 // 报告相关API
 const reportAPI = {
   // 获取家长辅导面板数据
-  getParentDashboard: (username) => request({
-    url: `/report/parent-dashboard/${username}`,
+  getParentDashboard: () => request({
+    url: '/report/parent-dashboard',
     method: 'GET'
   })
 };
@@ -282,7 +278,7 @@ export {
 
 // 学习报告相关API
 const getLearningData = (params) => request({
-  url: `/report/learning-trends/${params.username}`,
+  url: `/report/learning-trends`,
   params: {
     start_date: params.start_date,
     end_date: params.end_date

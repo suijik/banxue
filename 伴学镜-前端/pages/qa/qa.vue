@@ -203,7 +203,6 @@ export default {
         }));
         
         const res = await qaAPI.chat({
-          username: this.userInfo.username || 'test',
           messages: apiMessages,
           image_base64: userImageBase64
         });

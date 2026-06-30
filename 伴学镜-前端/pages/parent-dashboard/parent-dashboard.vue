@@ -180,12 +180,7 @@ export default {
     };
   },
   onLoad() {
-    const user = this.getStoredUser();
-    if (user && user.username) {
-      this.fetchParentDashboard(user.username);
-    } else {
-      this.fetchParentDashboard('test');
-    }
+    this.fetchParentDashboard();
   },
   methods: {
     getStoredUser() {
@@ -204,11 +199,11 @@ export default {
 
       return user;
     },
-    async fetchParentDashboard(username) {
+    async fetchParentDashboard() {
       try {
         this.isLoading = true;
         uni.showLoading({ title: '加载报告中...' });
-        const res = await reportAPI.getParentDashboard(username);
+        const res = await reportAPI.getParentDashboard();
         if (res.success) {
           const data = res.data;
           this.parentData.report_date_range = data.report_date_range;

@@ -224,33 +224,12 @@ export default {
     }
   },
   onLoad() {
-    this.initUserInfo();
     this.loadQuestions();
   },
   onShow() {
-    this.initUserInfo();
     this.loadQuestions();
   },
   methods: {
-    initUserInfo() {
-      const user = uni.getStorageSync('user');
-      if (!user) {
-        this.userInfo.username = '';
-        return;
-      }
-
-      if (typeof user === 'string') {
-        try {
-          const parsed = JSON.parse(user);
-          this.userInfo.username = parsed.username || '';
-        } catch (error) {
-          this.userInfo.username = '';
-        }
-        return;
-      }
-
-      this.userInfo.username = user.username || '';
-    },
     goBack() {
       uni.navigateBack({
         delta: 1,
@@ -310,10 +289,9 @@ export default {
       return map[level] || '普通';
     },
     async loadQuestions() {
-      if (!this.userInfo.username) return;
       this.isLoading = true;
       try {
-        const res = await knowledgeAPI.getPracticeQuestions({ username: this.userInfo.username });
+        const res = await knowledgeAPI.getPracticeQuestions({});
         if (res.success) {
           // 初始化前端状态字段
           this.questions = (res.data || []).map(q => ({
@@ -344,9 +322,8 @@ export default {
       question.is_mastered = newStatus;
       
       try {
-        await knowledgeAPI.updatePracticeMastery(question.id, { 
-          is_mastered: newStatus,
-          username: this.userInfo.username 
+        await knowledgeAPI.updatePracticeMastery(question.id, {
+          is_mastered: newStatus
         });
         uni.showToast({ title: newStatus ? '已掌握' : '已取消掌握', icon: 'none' });
       } catch (error) {
@@ -364,7 +341,7 @@ export default {
           if (res.confirm) {
             try {
               uni.showLoading({ title: '删除中...' });
-              const result = await knowledgeAPI.deletePracticeQuestion(id, { username: this.userInfo.username });
+              const result = await knowledgeAPI.deletePracticeQuestion(id);
               if (result.success) {
                 uni.showToast({ title: '删除成功', icon: 'success' });
                 this.loadQuestions(); // 重新加载列表

@@ -286,8 +286,6 @@ export default {
       isSubmitting: false, // 替换了原来的 isAnalyzing，仅表示上传过程
       examAnalyses: [],
       userInfo: {
-        username: uni.getStorageSync('user') ? JSON.parse(uni.getStorageSync('user')).username : ''
-      },
       pollTimer: null, // 用于存储轮询定时器
       fromHistory: false, // 标记是否是从历史页面跳转过来的
       expandedSections: {
@@ -340,9 +338,8 @@ export default {
       console.log('开始轮询分析状态...');
       // 每隔 3 秒静默刷新一次列表
       this.pollTimer = setInterval(async () => {
-        if (!this.userInfo.username) return;
         try {
-          const res = await examAPI.getHistory(this.userInfo.username);
+          const res = await examAPI.getHistory();
           if (res.success) {
             // 比较是否有状态从 pending 变成了 其他状态
             const prevPending = this.examAnalyses.filter(i => i.status === 'pending').map(i => i.id);
@@ -502,8 +499,7 @@ export default {
 
         const formData = {
           examName: this.examForm.examName,
-          imageData: fileData,
-          username: this.userInfo.username
+          imageData: fileData
         };
 
         // 仅上传，不等待分析完成
@@ -542,9 +538,8 @@ export default {
       }
     },
     async loadExamAnalyses() {
-      if (!this.userInfo.username) return;
       try {
-        const res = await examAPI.getHistory(this.userInfo.username);
+        const res = await examAPI.getHistory();
         if (res.success) {
           this.examAnalyses = res.data;
           this.checkAndStartPolling(); // 检查是否有正在分析中的记录并按需开启轮询

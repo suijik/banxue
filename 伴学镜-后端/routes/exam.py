@@ -1,4 +1,5 @@
 from flask import request, jsonify, current_app
+from flask_jwt_extended import jwt_required, get_jwt_identity
 import os
 import time
 import base64
@@ -31,6 +32,7 @@ def sanitize_exam_analysis_payload(data):
     cleaned['marks'] = marks
     return cleaned
 
+@jwt_required()
 def upload_exam_paper():
     """上传试卷图片并进行分析"""
     try:
@@ -39,12 +41,12 @@ def upload_exam_paper():
         if not data:
             print("错误：请求体为空")
             return jsonify({'success': False, 'message': '请求体不能为空'}), 400
-            
+
         # 检查请求参数的键名
         print(f"请求参数键名: {list(data.keys())}")
-            
+
         # 验证必要参数，兼容两种可能的键名
-        required_fields = [('imageData', 'image'), 'username']
+        required_fields = [('imageData', 'image')]
         missing_fields = []
         for field in required_fields:
             if isinstance(field, tuple):
@@ -53,21 +55,28 @@ def upload_exam_paper():
                     missing_fields.append(' 或 '.join(field))
             elif field not in data:
                 missing_fields.append(field)
-                
+
         if missing_fields:
             print(f"错误：缺少必要参数: {missing_fields}")
             return jsonify({
                 'success': False,
                 'message': f'缺少必要参数: {", ".join(missing_fields)}'
             }), 400
-            
-        username = data['username']
-        
+
+        # 从JWT获取用户
+        user_id = get_jwt_identity()
+        user = User.query.get(user_id)
+        if not user:
+            print(f"错误：用户 ID={user_id} 不存在")
+            return jsonify({'success': False, 'message': '用户不存在'}), 404
+
+        username = user.username
+
         # 获取图片数据，兼容两种可能的键名
         image_data = data.get('imageData') or data.get('image')
-        
+
         print(f"接收到用户 {username} 的试卷上传请求")
-        
+
         # 验证图片数据格式
         if not isinstance(image_data, str) or not image_data.startswith('data:image'):
             print("错误：图片数据格式不正确")
@@ -96,12 +105,6 @@ def upload_exam_paper():
                 'code': 'UNSUPPORTED_EXAM_IMAGE',
                 'data': support_result
             }), 400
-            
-        # 检查用户是否存在
-        user = User.query.filter_by(username=username).first()
-        if not user:
-            print(f"错误：用户 {username} 不存在")
-            return jsonify({'success': False, 'message': '用户不存在'}), 404
             
         # 保存图片
         try:
@@ -299,21 +302,18 @@ def upload_exam_paper():
             'message': f'处理请求失败: {str(e)}'
         }), 500
 
+@jwt_required()
 def get_exam_analyses():
     """获取用户的所有试卷分析记录"""
     try:
-        username = request.args.get('username')
-        if not username:
-            print("错误：获取分析记录时用户名为空")
-            return jsonify({'success': False, 'message': '用户名不能为空'}), 400
-        
-        print(f"获取用户 {username} 的试卷分析记录")
-        
-        user = User.query.filter_by(username=username).first()
+        user_id = get_jwt_identity()
+        print(f"获取用户 ID={user_id} 的试卷分析记录")
+
+        user = User.query.get(user_id)
         if not user:
-            print(f"错误：用户 {username} 不存在")
+            print(f"错误：用户 ID={user_id} 不存在")
             return jsonify({'success': False, 'message': '用户不存在'}), 404
-        
+
         # 获取用户的所有试卷分析
         analyses = ExamAnalysis.query.filter_by(user_id=user.id).order_by(ExamAnalysis.created_at.desc()).all()
         print(f"找到 {len(analyses)} 条分析记录")
